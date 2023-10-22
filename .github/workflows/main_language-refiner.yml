@@ -64,4 +64,4 @@ jobs:
         with:
           app-name: 'language-refiner'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FAAD942E938B4790913BA74BAAD1E724 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_36B6B9A413974D0A92D0CCFFE4340D50 }}
