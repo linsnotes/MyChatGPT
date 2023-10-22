@@ -3,14 +3,6 @@ import openai
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 
-
-app = Flask(__name__)
-
-from flask import Flask, request, jsonify, render_template
-import openai
-from azure.identity import DefaultAzureCredential
-from azure.keyvault.secrets import SecretClient
-
 app = Flask(__name__)
 
 # Connect to Key Vault and get the OPENAI_API_KEY secret
