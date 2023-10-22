@@ -2,23 +2,22 @@ from flask import Flask, request, jsonify, render_template
 import openai
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
-from decouple import config
-import os
+
 
 app = Flask(__name__)
 
-# Check if running locally or in Azure
-running_locally = os.environ.get("RUN_LOCALLY", "False").lower() == "true"
+from flask import Flask, request, jsonify, render_template
+import openai
+from azure.identity import DefaultAzureCredential
+from azure.keyvault.secrets import SecretClient
 
-if running_locally:
-    # Use .env method for local development
-    openai_api_key = config('OPENAI_API_KEY')
-else:
-    # Connect to Key Vault and get the OPENAI_API_KEY secret for Azure deployment
-    vault_url = "https://keyopenai.vault.azure.net/"
-    credential = DefaultAzureCredential()
-    secret_client = SecretClient(vault_url=vault_url, credential=credential)
-    openai_api_key = secret_client.get_secret("OPENAI-API-KEY").value
+app = Flask(__name__)
+
+# Connect to Key Vault and get the OPENAI_API_KEY secret
+vault_url = "https://keyopenai.vault.azure.net/"
+credential = DefaultAzureCredential()
+secret_client = SecretClient(vault_url=vault_url, credential=credential)
+openai_api_key = secret_client.get_secret("OPENAI-API-KEY").value
 
 # Initialize OpenAI API
 openai.api_key = openai_api_key
