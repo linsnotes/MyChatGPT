@@ -1,18 +1,18 @@
 from flask import Flask, request, jsonify, render_template
 import openai
-from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
+from azure.identity import DefaultAzureCredential
 
 app = Flask(__name__)
 
 # Connect to Key Vault and get the OPENAI_API_KEY secret
-vault_url = "https://keyopenai.vault.azure.net/"
+KVUri = "https://KeyOpenAI.vault.azure.net"
 credential = DefaultAzureCredential()
-secret_client = SecretClient(vault_url=vault_url, credential=credential)
-openai_api_key = secret_client.get_secret("OPENAI-API-KEY").value
+client = SecretClient(vault_url=KVUri, credential=credential)
+retrieved_secret = client.get_secret("OPENAI-API-KEY")
 
 # Initialize OpenAI API
-openai.api_key = openai_api_key
+openai.api_key = retrieved_secret.value
 
 @app.route('/')
 def index():
