@@ -106,7 +106,7 @@
           <textarea
             id="inputText"
             class="form-control limited-textarea"
-            placeholder="Enter text to correct..."
+            placeholder="Enter your text/question here..."
             oninput="adjustHeight(this); updateWordCount('input')"
           ></textarea>
           <div class="word-count" id="inputWordCount">Word count: 0</div>
@@ -117,7 +117,7 @@
             id="correctedText"
             class="form-control limited-textarea"
             readonly
-            placeholder="Corrected text will appear here..."
+            placeholder="Response will appear here..."
             oninput="adjustHeight(this); updateWordCount('output')"
           ></textarea>
           <div class="word-count" id="outputWordCount">Word count: 0</div>
@@ -127,7 +127,7 @@
       <div class="row">
         <div class="col-md-6 text-center">
           <button onclick="correctGrammar()" class="btn btn-primary">
-            Correct Text
+            Enter
           </button>
         </div>
         <div class="col-md-6 text-center">
