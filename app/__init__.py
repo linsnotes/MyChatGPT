@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 import openai
-from azure.keyvault.secrets import SecretClient
-from azure.identity import DefaultAzureCredential
+# from azure.keyvault.secrets import SecretClient
+# from azure.identity import DefaultAzureCredential
 from dotenv import load_dotenv, find_dotenv
 import os
 
