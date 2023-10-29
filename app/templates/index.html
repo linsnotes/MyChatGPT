@@ -204,6 +204,10 @@
         if (/[\u4e00-\u9fff]/.test(text)) {
           // Count characters for Chinese
           count = (text.match(/[\u4e00-\u9fff]/g) || []).length;
+              // Manually exclude common Chinese punctuation
+          const punctuation = /[\u3000-\u303f\uff00-\uffef]/g; // This range includes common Chinese punctuations
+          const punctuationCount = (text.match(punctuation) || []).length;
+          count -= punctuationCount;
         } else {
           // Count words for English and similar languages
           count = text.split(/\s+/).filter(Boolean).length;
