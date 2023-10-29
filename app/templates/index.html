@@ -128,6 +128,19 @@
                 <option value="asking">Ask Mr Lin Anything</option>
             </select>
         </div>
+
+        <div class="form-group">
+            <label for="modelSelection">Select Model</label>
+            <select id="modelSelection" class="form-control">
+                <option value="gpt-3.5-turbo">GPT-3.5-turbo</option>
+                <option value="gpt-4">GPT-4</option>
+            </select>
+        </div>
+
+        <div class="form-group" id="passwordField" style="display: none;">
+            <label for="modelPassword">Password for GPT-4</label>
+            <input type="password" id="modelPassword" class="form-control">
+        </div>
         
         <!-- new row Buttons -->
         <div class="row">
@@ -180,12 +193,26 @@
 
     <!-- Inline Scripts -->
     <script>
+        document.getElementById("modelSelection").addEventListener("change", function() {
+            var passwordField = document.getElementById("passwordField");
+            if (this.value === "gpt-4") {
+                passwordField.style.display = "block";
+            } else {
+                passwordField.style.display = "none";
+            }
+        });
+
+
+
+
         // Correct Grammar Function
         async function correctGrammar() {
             showGeneratingText();
 
             const text = document.getElementById("inputText").value;
             const refinementType = document.getElementById("refinementType").value;
+            const model = document.getElementById("modelSelection").value;
+            const password = model === "gpt-4" ? document.getElementById("modelPassword").value : "";
 
             try {
                 const response = await fetch("/correct", {
@@ -193,7 +220,7 @@
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ text: text, refinementType: refinementType }),
+                    body: JSON.stringify({ text: text, refinementType: refinementType, model: model, password: password }),
                 });
 
                 if (!response.ok) {
@@ -201,16 +228,23 @@
                 }
 
                 const data = await response.json();
+                if (data.error) {
+                    alert("Error: " + data.error);
+                    return;
+                }
+
                 const correctedTextArea = document.getElementById("correctedText");
                 correctedTextArea.value = data.corrected_text;
                 adjustHeight(correctedTextArea);
                 updateWordCount("output");
             } catch (error) {
                 console.error('Error fetching the corrected text:', error);
+                alert("An error occurred while processing your request.");
             } finally {
                 hideGeneratingText();
             }
         }
+
 
         // Show and Hide Generating Text Functions
         function showGeneratingText() {
