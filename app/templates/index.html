@@ -83,7 +83,7 @@
       margin-left: 2em; /* Adds 2em space to the left of "Thinking..." */
       color: #2b6d11; /* Blue color */
       font-size: 1em; /* Slightly larger text */
-      /* ... other styles ... */
+      display: inline
       }
 
       .dot {
@@ -112,7 +112,13 @@
          opacity: 0;
       }
       }
-
+      @media screen and (max-width: 768px) { /* Adjust the max-width as needed */
+      #outputHeader + #generatingText {
+        display: block; /* Stack "Give me a moment..." below "Output" */
+        margin-left: 0; /* Reset left margin */
+        margin-top: 0.5em; /* Add some space above "Give me a moment..." */
+      }
+      }
     </style>
   </head>
 
@@ -142,8 +148,6 @@
         </div>
         <div class="col-md-6">
           <h4 id="outputHeader">Output <span id="generatingText" style="display: none;">Give me a moment<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span></h4>
-
-
           <textarea
             id="correctedText"
             class="form-control limited-textarea"
