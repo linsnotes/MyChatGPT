@@ -207,43 +207,43 @@
 
         // Correct Grammar Function
         async function correctGrammar() {
-            showGeneratingText();
+        showGeneratingText();
 
-            const text = document.getElementById("inputText").value;
-            const refinementType = document.getElementById("refinementType").value;
-            const model = document.getElementById("modelSelection").value;
-            const password = model === "gpt-4" ? document.getElementById("modelPassword").value : "";
+        const text = document.getElementById("inputText").value;
+        const refinementType = document.getElementById("refinementType").value;
+        const model = document.getElementById("modelSelection").value;
+        const password = model === "gpt-4" ? document.getElementById("modelPassword").value : "";
 
-            try {
-                const response = await fetch("/correct", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ text: text, refinementType: refinementType, model: model, password: password }),
-                });
+        try {
+            const response = await fetch("/correct", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ text: text, refinementType: refinementType, model: model, password: password }),
+            });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                if (data.error) {
-                    alert("Error: " + data.error);
+            if (!response.ok) {
+                if (response.status === 403) {
+                    const errorData = await response.json();
+                    alert("Error: " + errorData.error);
                     return;
                 }
-
-                const correctedTextArea = document.getElementById("correctedText");
-                correctedTextArea.value = data.corrected_text;
-                adjustHeight(correctedTextArea);
-                updateWordCount("output");
-            } catch (error) {
-                console.error('Error fetching the corrected text:', error);
-                alert("An error occurred while processing your request.");
-            } finally {
-                hideGeneratingText();
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const data = await response.json();
+            const correctedTextArea = document.getElementById("correctedText");
+            correctedTextArea.value = data.corrected_text;
+            adjustHeight(correctedTextArea);
+            updateWordCount("output");
+        } catch (error) {
+            console.error('Error fetching the corrected text:', error);
+            alert("An error occurred while processing your request.");
+        } finally {
+            hideGeneratingText();
         }
+    }
 
 
         // Show and Hide Generating Text Functions

@@ -23,7 +23,7 @@ def correct_text():
 
     # Check if GPT-4 is selected and validate password
     if model == "gpt-4" and password != GPT4_PASSWORD:
-        return jsonify({"error": "Invalid password for GPT-4 model"}), 403
+        return jsonify({"error": "Invalid password entered. Please contact Mr Lin for assistance with accessing the GPT-4 model."}), 403
 
     base_message = f" 'Text': \"{text}\""
 
