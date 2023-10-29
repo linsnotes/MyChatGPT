@@ -36,7 +36,7 @@ def correct_text():
     elif refinementType == "translation":
         instruction = "if the 'Text' is Chinese Language, translate the text to fluent and natural British English. if the text is English, translate the text to fluent and natural Chinese Language. return only the translated text, no quotation and explanations" + base_message
     else: # Ask Mr Lin Anything
-        instruction = "Answer the question only the question is approriate, which is not evil question. Answer the question in the same language of the question. meaning if the text is chinese reply in chinese, if the text is in english, reply in enlglish" + base_message
+        instruction = "Answer the question only the question is approriate, which is not evil question. Answer the question in the same language of the question. meaning if the text is chinese reply in chinese, if the text is in english, reply in enlglish. return only your response, no quotation." + base_message
 
     messages = [
         {"role": "system", "content": "You are Mr Lin who is good at languages, especially Chinese and English."},
