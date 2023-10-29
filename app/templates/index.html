@@ -106,7 +106,8 @@
           <div class="word-count" id="inputWordCount">Word count: 0</div>
         </div>
         <div class="col-md-6">
-          <h4 id="outputHeader">Output</h4>
+          <h4 id="outputHeader">Output <span id="generatingText" style="display: none;">Generating...</span></h4>
+
           <textarea
             id="correctedText"
             class="form-control limited-textarea"
@@ -137,24 +138,66 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+      // async function correctGrammar() {
+      //   const text = document.getElementById("inputText").value;
+      //   const refinementType = document.getElementById("refinementType").value;
+
+      //   const response = await fetch("/correct", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({ text: text, refinementType: refinementType }),
+      //   });
+
+      //   const data = await response.json();
+      //   const correctedTextArea = document.getElementById("correctedText");
+      //   correctedTextArea.value = data.corrected_text;
+      //   adjustHeight(correctedTextArea);
+      //   updateWordCount("output");
+      // }
+
       async function correctGrammar() {
-        const text = document.getElementById("inputText").value;
-        const refinementType = document.getElementById("refinementType").value;
+      showGeneratingText(); // Show "Generating..." text
 
-        const response = await fetch("/correct", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ text: text, refinementType: refinementType }),
-        });
+      const text = document.getElementById("inputText").value;
+      const refinementType = document.getElementById("refinementType").value;
 
-        const data = await response.json();
-        const correctedTextArea = document.getElementById("correctedText");
-        correctedTextArea.value = data.corrected_text;
-        adjustHeight(correctedTextArea);
-        updateWordCount("output");
+      try {
+          const response = await fetch("/correct", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ text: text, refinementType: refinementType }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          const correctedTextArea = document.getElementById("correctedText");
+          correctedTextArea.value = data.corrected_text;
+          adjustHeight(correctedTextArea);
+          updateWordCount("output");
+      } catch (error) {
+         console.error('Error fetching the corrected text:', error);
+        } finally {
+         hideGeneratingText(); // Hide "Generating..." text regardless of success or failure
+        }
       }
+
+   function showGeneratingText() {
+      document.getElementById("generatingText").style.display = 'inline'; // Show "Generating..."
+   }
+
+   function hideGeneratingText() {
+      document.getElementById("generatingText").style.display = 'none'; // Hide "Generating..."
+   }
+
+
+
 
       function adjustHeight(textarea) {
         textarea.style.height = "auto";
