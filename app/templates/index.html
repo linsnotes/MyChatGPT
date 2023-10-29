@@ -203,7 +203,7 @@
         // Check if the text contains Chinese characters
         if (/[\u4e00-\u9fff]/.test(text)) {
           // Count characters for Chinese
-          count = text.length;
+          count = (text.match(/[\u4e00-\u9fff]/g) || []).length;
         } else {
           // Count words for English and similar languages
           count = text.split(/\s+/).filter(Boolean).length;
@@ -213,12 +213,12 @@
       }
 
       function handleSelectChange(selectElement) {
-  if (selectElement.value !== '') {
-    selectElement.classList.add('select-focus');
-  } else {
-    selectElement.classList.remove('select-focus');
-  }
-}
+        if (selectElement.value !== '') {
+          selectElement.classList.add('select-focus');
+        } else {
+          selectElement.classList.remove('select-focus');
+        }
+      }
 
     </script>
   </body>
