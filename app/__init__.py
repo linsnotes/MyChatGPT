@@ -43,7 +43,7 @@ def correct_text():
         {"role": "user", "content": instruction}
     ]
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=messages
     )
     return jsonify({"corrected_text": response.choices[0].message['content'].strip()})
