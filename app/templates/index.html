@@ -36,8 +36,8 @@
         color: #ff5733;
       }
       .select-focus {
-  color: #16b816; /* Light green color */
-}
+        color: #16b816; /* Light green color */
+      }
       .container {
         padding: 2% 3%;
         max-width: 100%;
@@ -78,6 +78,41 @@
         color: #888;
         margin-top: 5px;
       }
+
+      #generatingText {
+      margin-left: 2em; /* Adds 2em space to the left of "Thinking..." */
+      color: #2b6d11; /* Blue color */
+      font-size: 1em; /* Slightly larger text */
+      /* ... other styles ... */
+      }
+
+      .dot {
+      animation-name: blink;
+      animation-duration: 1.4s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      }
+
+      .dot:nth-child(2) {
+      animation-delay: 0.2s;
+      }
+
+      .dot:nth-child(3) {
+      animation-delay: 0.4s;
+      }
+
+      @keyframes blink {
+      0% {
+         opacity: 0;
+      }
+      50% {
+         opacity: 1;
+      }
+      100% {
+         opacity: 0;
+      }
+      }
+
     </style>
   </head>
 
@@ -106,7 +141,8 @@
           <div class="word-count" id="inputWordCount">Word count: 0</div>
         </div>
         <div class="col-md-6">
-          <h4 id="outputHeader">Output <span id="generatingText" style="display: none;">Generating...</span></h4>
+          <h4 id="outputHeader">Output <span id="generatingText" style="display: none;">Give me a moment<span class="dot">.</span><span class="dot">.</span><span class="dot">.</span></span></h4>
+
 
           <textarea
             id="correctedText"
@@ -138,6 +174,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
+      // without "Generating..."
       // async function correctGrammar() {
       //   const text = document.getElementById("inputText").value;
       //   const refinementType = document.getElementById("refinementType").value;
